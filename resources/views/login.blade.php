@@ -1,6 +1,6 @@
 @extends('master')
 
-{{-- @include('component.loading') --}}
+@include('component.loading')
 
 @section('title', '登录')
 
