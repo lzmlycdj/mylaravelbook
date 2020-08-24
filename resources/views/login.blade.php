@@ -39,6 +39,9 @@
 
 @section('my-js')
 <script type="text/javascript">
-
+// 手动刷新验证码，为了防止读取缓存，后面加上随机数
+$('.bk_validate_code').click(function () {
+    $(this).attr('src', 'service/validate_code/create?random=' + Math.random());
+  });
 </script>
 @endsection
