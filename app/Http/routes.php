@@ -17,3 +17,6 @@ Route::get('/', function () {
      return view('login');
     // return Member::all();
 });
+
+
+Route::any('service/validate_code/create','Service\ValidateController@create');
