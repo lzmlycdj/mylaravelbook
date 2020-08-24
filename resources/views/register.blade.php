@@ -118,7 +118,9 @@
 </script>
 <script type="text/javascript">
   var enable = true;
+  // 开始发送短信
   $('.bk_phone_code_send').click(function(event) {
+    // 是否允许发送短信变量，如果为false就不会调用发送短信接口
     if (enable == false) {
       return;
     }
@@ -146,8 +148,11 @@
     $(this).removeClass('bk_important');
     $(this).addClass('bk_summary');
     enable = false;
+    // 60s 后重新发送
     var num = 60;
+    //定时器60s
     var interval = window.setInterval(function() {
+      // interval里面不能用this
       $('.bk_phone_code_send').html(--num + 's 重新发送');
       if (num == 0) {
         $('.bk_phone_code_send').removeClass('bk_summary');
@@ -157,9 +162,9 @@
         $('.bk_phone_code_send').html('重新发送');
       }
     }, 1000);
-
+// ajax调用
     $.ajax({
-      url: '/service/validate_phone/send',
+      url: 'service/validate_phone/send',
       dataType: 'json',
       cache: false,
       data: {
@@ -208,7 +213,7 @@
         var confirm = '';
         var phone_code = '';
         var validate_code = '';
-
+// 手机注册验证
         var id = $(this).attr('id');
         if (id == 'x11') {
           phone = $('input[name=phone]').val();
@@ -218,6 +223,7 @@
           if (verifyPhone(phone, password, confirm, phone_code) == false) {
             return;
           }
+          // 邮箱注册验证
         } else if (id == 'x12') {
           email = $('input[name=email]').val();
           password = $('input[name=passwd_email]').val();
@@ -275,7 +281,7 @@
       }
     });
   }
-
+// 手机号码校验
   function verifyPhone(phone, password, confirm, phone_code) {
     // 手机号不为空
     if (phone == '') {
