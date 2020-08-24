@@ -25,7 +25,8 @@
             <input class="weui_input" type="number" placeholder="请输入验证码" />
         </div>
         <div class="weui_cell_ft">
-            <img src="/service/validate_code/create" class="bk_validate_code" />
+            {{-- 这里就是生成验证码的地址 --}}
+            <img src="service/validate_code/create" class="bk_validate_code" />
         </div>
     </div>
 </div>
