@@ -6,6 +6,7 @@ use App\Tool\Validate\ValidateCode;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+// 引入发送短信类
 use App\Tool\SMS\SendTemplateSMS;
 use App\Entity\TempPhone;
 use App\Models\M3Result;
@@ -20,15 +21,17 @@ class ValidateController extends Controller
     // $request->session()->put('validate_code', $validateCode->getCode());
     return $validateCode->doimg();
   }
-
+// 发送短信方法
   public function sendSMS(Request $request)
   {
     $m3_result = new M3Result;
-
+  //  获取传进来的phone
     $phone = $request->input('phone', '');
+  // 如果电话为空则返回
     if($phone == '') {
       $m3_result->status = 1;
       $m3_result->message = '手机号不能为空';
+      // 将对象转化为json对象字符串返回
       return $m3_result->toJson();
     }
     if(strlen($phone) != 11 || $phone[0] != '1') {
@@ -37,6 +40,7 @@ class ValidateController extends Controller
       return $m3_result->toJson();
     }
 
+    // 容量云发送短信begin
     $sendTemplateSMS = new SendTemplateSMS;
     $code = '';
     $charset = '1234567890';
@@ -45,6 +49,8 @@ class ValidateController extends Controller
         $code .= $charset[mt_rand(0, $_len)];
     }
     $m3_result = $sendTemplateSMS->sendTemplateSMS($phone, array($code, 60), 1);
+ // 容量云发送短信end
+// 开始将phone和验证码存入数据库里
     if($m3_result->status == 0) {
       $tempPhone = TempPhone::where('phone', $phone)->first();
       if($tempPhone == null) {
@@ -52,6 +58,7 @@ class ValidateController extends Controller
       }
       $tempPhone->phone = $phone;
       $tempPhone->code = $code;
+      // 时间戳转成字符串保存到数据库
       $tempPhone->deadline = date('Y-m-d H-i-s', time() + 60*60);
       $tempPhone->save();
     }
