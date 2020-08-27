@@ -10,6 +10,7 @@ use App\Models\M3Result;
 use App\Entity\Member;
 use App\Entity\TempPhone;
 use App\Entity\TempEmail;
+// 引入邮件实体类
 use App\Models\M3Email;
 use App\Tool\UUID;
 use Mail;
@@ -86,24 +87,24 @@ class MemberController extends Controller
         $m3_result->message = '验证码为4位';
         return $m3_result->toJson();
       }
-
+// 验证码比较，如果客人传过来的验证码和session里面保存的不一致
       $validate_code_session = $request->session()->get('validate_code', '');
       if($validate_code_session != $validate_code) {
         $m3_result->status = 8;
         $m3_result->message = '验证码不正确';
         return $m3_result->toJson();
       }
-
+// 开始保存验证码
       $member = new Member;
       $member->email = $email;
       $member->password = md5('bk' + $password);
       $member->save();
 
       $uuid = UUID::create();
-
+// 发送邮件
       $m3_email = new M3Email;
       $m3_email->to = $email;
-      $m3_email->cc = 'magina@speakez.cn';
+      $m3_ema il->cc = 'magina@speakez.cn';
       $m3_email->subject = '凯恩书店验证';
       $m3_email->content = '请于24小时点击该链接完成验证. http://book.magina.com/service/validate_email'
                         . '?member_id=' . $member->id
@@ -114,7 +115,7 @@ class MemberController extends Controller
       $tempEmail->code = $uuid;
       $tempEmail->deadline = date('Y-m-d H-i-s', time() + 24*60*60);
       $tempEmail->save();
-
+// 注册成功发送邮件
       Mail::send('email_register', ['m3_email' => $m3_email], function ($m) use ($m3_email) {
           // $m->from('hello@app.com', 'Your Application');
           $m->to($m3_email->to, '尊敬的用户')

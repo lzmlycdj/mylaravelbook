@@ -18,7 +18,8 @@ class ValidateController extends Controller
   public function create(Request $request)
   {
     $validateCode = new ValidateCode;
-    // $request->session()->put('validate_code', $validateCode->getCode());
+    // 验证码存session
+     $request->session()->put('validate_code', $validateCode->getCode());
     return $validateCode->doimg();
   }
 // 发送短信方法
