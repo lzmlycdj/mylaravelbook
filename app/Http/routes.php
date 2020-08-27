@@ -23,6 +23,7 @@ Route::get('/login', 'View\MemberController@toLogin');
 Route::get('/register', 'View\MemberController@toRegister');
 Route::get('/smsTest', 'Service\ValidateController@sendSMS');
 Route::get('/service/validate_phone/send', 'Service\ValidateController@sendSMS');
+Route::get('/service/testEmail', 'Service\ValidateController@testEmail');
 
 
 Route::any('service/validate_code/create','Service\ValidateController@create');

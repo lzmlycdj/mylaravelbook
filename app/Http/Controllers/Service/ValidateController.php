@@ -12,6 +12,7 @@ use App\Entity\TempPhone;
 use App\Models\M3Result;
 use App\Entity\TempEmail;
 use App\Entity\Member;
+use Illuminate\Support\Facades\Mail;
 
 class ValidateController extends Controller
 {
@@ -29,7 +30,7 @@ class ValidateController extends Controller
   //  获取传进来的phone
     $phone = $request->input('phone', '');
  
-  // 如果电话为空则返回
+  // 如果电话为空则返回,服务器里面还是需要验证的防止其他手段进入
     if($phone == '') {
       $m3_result->status = 1;
       $m3_result->message = '手机号不能为空';
@@ -94,5 +95,19 @@ class ValidateController extends Controller
     } else {
       return '该链接已失效';
     }
+  }
+
+  public  function testEmail(){
+    $message = '我是测试哦';
+    $to = '2461494390@qq.com';
+    $subject = '你好啊 ';
+    Mail::send(
+        'email_register',    //视图地址
+        ['content' => $message],
+        function ($message) use($to, $subject) {
+            $message->to($to)->subject($subject);
+        }
+    );
+    return response()->json(['status'  => '0', 'message' => '测试','result'=>""]);
   }
 }

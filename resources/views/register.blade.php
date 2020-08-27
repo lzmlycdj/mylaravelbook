@@ -88,12 +88,12 @@
 <div class="weui_btn_area">
   <a class="weui_btn weui_btn_primary" href="javascript:" onclick="onRegisterClick();">注册</a>
 </div>
-<a href="/login" class="bk_bottom_tips bk_important">已有帐号? 去登录</a>
+<a href="login" class="bk_bottom_tips bk_important">已有帐号? 去登录</a>
 @endsection
 
 @section('my-js')
 <script type="text/javascript">
-// 默认隐藏邮箱注册表单
+  // 默认隐藏邮箱注册表单
   $('#x12').next().hide();
   //产生点击事件的时候的动作
   $('input:radio[name=register_type]').click(function(event) {
@@ -111,9 +111,9 @@
       $('.weui_cells_form').eq(0).hide();
     }
   });
-
+// 点击更新验证码
   $('.bk_validate_code').click(function() {
-    $(this).attr('src', '/service/validate_code/create?random=' + Math.random());
+    $(this).attr('src', 'service/validate_code/create?random=' + Math.random());
   });
 </script>
 <script type="text/javascript">
@@ -126,7 +126,7 @@
     }
 
     var phone = $('input[name=phone]').val();
-    // 手机号不为空
+    // 手机号不为空(这里是引入的其他book.css里面的样式-->master里面的)
     if (phone == '') {
       $('.bk_toptips').show();
       $('.bk_toptips span').html('请输入手机号');
@@ -144,8 +144,9 @@
       }, 2000);
       return;
     }
-
+    // 发送按钮样式修改
     $(this).removeClass('bk_important');
+    // 禁止多次修改
     $(this).addClass('bk_summary');
     enable = false;
     // 60s 后重新发送
@@ -162,7 +163,7 @@
         $('.bk_phone_code_send').html('重新发送');
       }
     }, 1000);
-// ajax调用
+    // ajax调用
     $.ajax({
       url: 'service/validate_phone/send',
       dataType: 'json',
@@ -213,13 +214,14 @@
         var confirm = '';
         var phone_code = '';
         var validate_code = '';
-// 手机注册验证
+        // 手机注册验证
         var id = $(this).attr('id');
         if (id == 'x11') {
           phone = $('input[name=phone]').val();
           password = $('input[name=passwd_phone]').val();
           confirm = $('input[name=passwd_phone_cfm]').val();
           phone_code = $('input[name=phone_code]').val();
+          // 这是验证格式
           if (verifyPhone(phone, password, confirm, phone_code) == false) {
             return;
           }
@@ -233,7 +235,7 @@
             return;
           }
         }
-
+          // 如果全部通过了就开始注册了
         $.ajax({
           type: "POST",
           url: 'service/register',
@@ -282,7 +284,7 @@
       }
     });
   }
-// 手机号码校验
+  // 手机号码校验
   function verifyPhone(phone, password, confirm, phone_code) {
     // 手机号不为空
     if (phone == '') {

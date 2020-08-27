@@ -50,7 +50,7 @@ class MemberController extends Controller
       return $m3_result->toJson();
     }
 
-    // 手机号注册
+    // 手机号注册  要在数据库里取出和前台输入的做对比
     if($phone != '') {
       if($phone_code == '' || strlen($phone_code) != 6) {
         $m3_result->status = 5;
@@ -59,6 +59,7 @@ class MemberController extends Controller
       }
 
       $tempPhone = TempPhone::where('phone', $phone)->first();
+      // 如果匹配
       if($tempPhone->code == $phone_code) {
         if(time() > strtotime($tempPhone->deadline)) {
           $m3_result->status = 7;
@@ -75,6 +76,7 @@ class MemberController extends Controller
         $m3_result->message = '注册成功';
         return $m3_result->toJson();
       } else {
+        // 没有匹配
         $m3_result->status = 7;
         $m3_result->message = '手机验证码不正确';
         return $m3_result->toJson();
