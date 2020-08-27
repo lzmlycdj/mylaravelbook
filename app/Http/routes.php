@@ -26,3 +26,4 @@ Route::get('/service/validate_phone/send', 'Service\ValidateController@sendSMS')
 
 
 Route::any('service/validate_code/create','Service\ValidateController@create');
+Route::post('service/register', 'Service\MemberController@register');

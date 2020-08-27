@@ -1,5 +1,6 @@
 <?php
-
+// 后端验证
+// laravel 5.1集成了防跨站攻击 CSRF
 namespace App\Http\Controllers\Service;
 
 use App\Http\Controllers\Controller;
@@ -17,13 +18,14 @@ class MemberController extends Controller
 {
   public function register(Request $request)
   {
+   
     $email = $request->input('email', '');
     $phone = $request->input('phone', '');
     $password = $request->input('password', '');
     $confirm = $request->input('confirm', '');
     $phone_code = $request->input('phone_code', '');
     $validate_code = $request->input('validate_code', '');
-
+// 引入类
     $m3_result = new M3Result;
 
     if($email == '' && $phone == '') {
@@ -65,7 +67,7 @@ class MemberController extends Controller
 
         $member = new Member;
         $member->phone = $phone;
-        $member->password = md5('bk' + $password);
+        $member->password = md5($password);
         $member->save();
 
         $m3_result->status = 0;

@@ -34,7 +34,7 @@
 <div class="weui_btn_area">
     <a class="weui_btn weui_btn_primary" href="javascript:" onclick="onLoginClick();">登录</a>
 </div>
-<a href="/register" class="bk_bottom_tips bk_important">没有帐号? 去注册</a>
+<a href="register" class="bk_bottom_tips bk_important">没有帐号? 去注册</a>
 @endsection
 
 @section('my-js')

@@ -236,7 +236,7 @@
 
         $.ajax({
           type: "POST",
-          url: '/service/register',
+          url: 'service/register',
           dataType: 'json',
           cache: false,
           data: {
@@ -248,6 +248,7 @@
             validate_code: validate_code,
             _token: "{{csrf_token()}}"
           },
+          //  _token: "{{csrf_token()}}" 带上这个参数，防止跨站攻击
           success: function(data) {
             if (data == null) {
               $('.bk_toptips').show();
