@@ -94,7 +94,7 @@ return [
     | Available Settings: "single", "daily", "syslog", "errorlog"
     |
     */
-
+    //  这里可以很好的打印日志
     'log' => env('APP_LOG', 'single'),
 
     /*

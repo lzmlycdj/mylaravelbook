@@ -20,13 +20,13 @@ class BookController extends Controller
     $categorys = Category::whereNull('parent_id')->get();
     return view('category')->with('categorys', $categorys);
   }
-
+  // 产品控制器
   public function toProduct($category_id)
   {
     $products = Product::where('category_id', $category_id)->get();
     return view('product')->with('products', $products);
   }
-  // 产品控制器
+//  产品详情
   public function toPdtContent(Request $request, $product_id)
   {
     $product = Product::find($product_id);

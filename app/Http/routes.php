@@ -23,7 +23,8 @@ Route::get('/login', 'View\MemberController@toLogin');
 Route::get('/register', 'View\MemberController@toRegister');
 Route::get('/smsTest', 'Service\ValidateController@sendSMS');
 Route::get('/product/category_id/{category_id}', 'View\BookController@toProduct');
-
+// 产品详情
+Route::get('/product/{product_id}', 'View\BookController@toPdtContent');
 Route::get('/category', 'View\BookController@toCategory');
 // 对于接口类一般用post
 // Middleware To assign middleware to all routes within a group, you may use the middleware key 
