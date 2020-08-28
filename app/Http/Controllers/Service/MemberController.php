@@ -99,14 +99,16 @@ class MemberController extends Controller
 // 开始保存验证码
       $member = new Member;
       $member->email = $email;
-      $member->password = md5('bk' + $password);
+      // $member->password = md5('bk' + $password);
+       $member->password = md5($password);
+
       $member->save();
 
       $uuid = UUID::create();
 // 发送邮件
       $m3_email = new M3Email;
       $m3_email->to = $email;
-      $m3_ema il->cc = 'magina@speakez.cn';
+      $m3_email->cc = 'magina@speakez.cn';
       $m3_email->subject = '凯恩书店验证';
       $m3_email->content = '请于24小时点击该链接完成验证. http://book.magina.com/service/validate_email'
                         . '?member_id=' . $member->id
@@ -129,5 +131,51 @@ class MemberController extends Controller
       $m3_result->message = '注册成功';
       return $m3_result->toJson();
     }
+  }
+
+  public function login(Request $request) {
+    $username = $request->get('username', '');
+    $password = $request->get('password', '');
+    $validate_code = $request->get('validate_code', '');
+
+    $m3_result = new M3Result;
+
+    // 校验
+    // ....
+
+    // 判断
+    // $validate_code_session = $request->session()->get('validate_code');
+    // if($validate_code != $validate_code_session) {
+    //   $m3_result->status = 1;
+    //   $m3_result->message = '验证码不正确';
+    //   return $m3_result->toJson();
+    // }
+
+    $member = null;
+    if(strpos($username, '@') == true) {
+      $member = Member::where('email', $username)->first();
+    } else {
+      $member = Member::where('phone', $username)->first();
+    }
+
+    if($member == null) {
+      $m3_result->status = 2;
+      $m3_result->message = '该用户不存在';
+      return $m3_result->toJson();
+    } else {
+      // if(md5('bk' + $password) != $member->password) {
+      if(md5($password) != $member->password) {
+        $m3_result->status = 3;
+        $m3_result->message = '密码不正确';
+        return $m3_result->toJson();
+      }
+    }
+
+    $request->session()->put('member', $member);
+
+    $m3_result->status = 0;
+    $m3_result->message = '登录成功';
+     // 控制器里面不要轻易跳转，因为如果你的控制器对外接口，这就不方便了，应该返回一个数据，前台再跳转
+    return $m3_result->toJson();
   }
 }
