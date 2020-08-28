@@ -69,6 +69,7 @@ function _getCategory() {
         return;
       }
       $('.weui_cells_access').html('');
+      // 书籍页面跳转
       for(var i=0; i<data.categorys.length; i++) {
         var next = '{{url('/product')}}'+'/category_id/' + data.categorys[i].id;
         var node = '<a class="weui_cell" href="' + next + '">' +

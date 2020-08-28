@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::get('/login', 'View\MemberController@toLogin');
 Route::get('/register', 'View\MemberController@toRegister');
 Route::get('/smsTest', 'Service\ValidateController@sendSMS');
+Route::get('/product/category_id/{category_id}', 'View\BookController@toProduct');
 
 Route::get('/category', 'View\BookController@toCategory');
 // 对于接口类一般用post

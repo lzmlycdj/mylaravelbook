@@ -15,6 +15,7 @@ class BookController extends Controller
 {
   public function toCategory($value='')
   {
+    // 日志的使用
     Log::info("进入书籍类别");
     $categorys = Category::whereNull('parent_id')->get();
     return view('category')->with('categorys', $categorys);
@@ -25,7 +26,7 @@ class BookController extends Controller
     $products = Product::where('category_id', $category_id)->get();
     return view('product')->with('products', $products);
   }
-
+  // 产品控制器
   public function toPdtContent(Request $request, $product_id)
   {
     $product = Product::find($product_id);
