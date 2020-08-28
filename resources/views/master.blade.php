@@ -9,6 +9,12 @@
 </head>
 <body>
 
+<div class="bk_title_bar">
+  <img class="bk_back" src="{{URL::asset('/images/back.png')}}" alt="" onclick="history.go(-1);">
+  <p class="bk_title_content">xxxxx</p>
+  <img class="bk_menu" src="{{URL::asset('/images/menu.png')}}" alt="" onclick="onMenuClick();">
+</div>
+
 <div class="page">
   @yield('content')
 </div>
@@ -16,9 +22,7 @@
 <!-- tooltips -->
 <div class="bk_toptips"><span></span></div>
 
-<div id="global_menu" onclick="onMenuClick();">
-  <div></div>
-</div>
+ 
 
 <!--BEGIN actionSheet-->
 <div id="actionSheet_wrap">

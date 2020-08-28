@@ -23,6 +23,7 @@ Route::get('/login', 'View\MemberController@toLogin');
 Route::get('/register', 'View\MemberController@toRegister');
 Route::get('/smsTest', 'Service\ValidateController@sendSMS');
 
+Route::get('/category', 'View\BookController@toCategory');
 // 对于接口类一般用post
 // Middleware To assign middleware to all routes within a group, you may use the middleware key 
 //in the group attribute array. Middleware will be executed in the order you define this array:
@@ -37,4 +38,6 @@ Route::group(['prefix' => 'service'], function () {
     Route::post('validate_phone/send', 'Service\ValidateController@sendSMS');
     Route::post('register', 'Service\MemberController@register');
     Route::post('login', 'Service\MemberController@login');
+    Route::get('category/parent_id/{parent_id}', 'Service\BookController@getCategoryByParentId');
+
   });
