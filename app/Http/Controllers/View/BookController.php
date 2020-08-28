@@ -34,7 +34,7 @@ class BookController extends Controller
     $pdt_images = PdtImages::where('product_id', $product_id)->get();
 
     $count = 0;
-
+    // 刷新后首页还是cookie数据
     $member = $request->session()->get('member', '');
     if($member != '') {
       $cart_items = CartItem::where('member_id', $member->id)->get();
