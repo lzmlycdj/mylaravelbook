@@ -40,13 +40,11 @@ class CartController extends Controller
 
       return $m3_result->toJson();
     }
-    // 获取cookie里面的数值
+
     $bk_cart = $request->cookie('bk_cart');
-  
     $bk_cart_arr = ($bk_cart!=null ? explode(',', $bk_cart) : array());
 
     $count = 1;
-    // 这里array是基本类型，是传值，如果是对象就不用加&
     foreach ($bk_cart_arr as &$value) {   // 一定要传引用
       $index = strpos($value, ':');
       if(substr($value, 0, $index) == $product_id) {
@@ -99,11 +97,14 @@ class CartController extends Controller
       $product_id = substr($value, 0, $index);
       // 存在, 删除
       if(in_array($product_id, $product_ids_arr)) {
+        // 不采用unset方法
         array_splice($bk_cart_arr, $key, 1);
         continue;
       }
     }
+  
 
+    // withCookie('bk_cart', implode(',', $bk_cart_arr));存放cookie
     return response($m3_result->toJson())->withCookie('bk_cart', implode(',', $bk_cart_arr));
   }
 }
