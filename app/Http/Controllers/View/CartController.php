@@ -16,8 +16,10 @@ class CartController extends Controller
     $cart_items = array();
 
     $bk_cart = $request->cookie('bk_cart');
-    $bk_cart_arr = ($bk_cart!=null ? explode(',', $bk_cart) : array());
+ 
 
+    $bk_cart_arr = ($bk_cart!=null ? explode(',', $bk_cart) : array());
+    // 同步购物车cookie
     $member = $request->session()->get('member', '');
     if($member != '') {
       $cart_items = $this->syncCart($member->id, $bk_cart_arr);
@@ -38,12 +40,14 @@ class CartController extends Controller
 
     return view('cart')->with('cart_items', $cart_items);
   }
-
+  // 同步购物车 
   private function syncCart($member_id, $bk_cart_arr)
   {
+    // 查询数据表里面的购物车
     $cart_items = CartItem::where('member_id', $member_id)->get();
 
     $cart_items_arr = array();
+    // 遍历循环本地的购物车
     foreach ($bk_cart_arr as $value) {
       $index = strpos($value, ':');
       $product_id = substr($value, 0, $index);
@@ -73,8 +77,8 @@ class CartController extends Controller
         array_push($cart_items_arr, $cart_item);
       }
     }
-
-    // 为每个对象附加产品对象便于显示
+   
+    // 为每个对象附加产品对象便于显示-->因为$cart_items是个对象，所以下面又附加了一个product属性，里面又这些产品的详细信息，前台可以直接显示出来
     foreach ($cart_items as $cart_item) {
       $cart_item->product = Product::find($cart_item->product_id);
       array_push($cart_items_arr, $cart_item);

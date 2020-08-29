@@ -56,7 +56,7 @@
   </div>
   <div class="bk_half_area">
     <!-- 购物车结算功能 -->
-    <button class="weui_btn weui_btn_default" onclick="_toCart()">结算(<span id="cart_num" class="m3_price">{{$count}}</span>)</button>
+    <button class="weui_btn weui_btn_default" onclick="_toCart()">查看购物车(<span id="cart_num" class="m3_price">{{$count}}</span>)</button>
   </div>
 </div>
 

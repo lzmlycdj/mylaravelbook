@@ -29,10 +29,16 @@ Route::get('/category', 'View\BookController@toCategory');
 Route::get('/cart', 'View\CartController@toCart');
 // 测试中间件-》在控制器执行之前做一次拦截
 // Route::get('/cart',['middleware'=>'check.login'], 'View\CartController@toCart');
+
+
 // 中间件组
 Route::group(['middleware' => 'check.login'], function () {
   Route::get('/cart', 'View\CartController@toCart');
+  Route::get('/order_pay','Service\OrderController@toOrder');
 });
+
+
+
 // 对于接口类一般用post
 // Middleware To assign middleware to all routes within a group, you may use the middleware key 
 //in the group attribute array. Middleware will be executed in the order you define this array:
@@ -46,7 +52,7 @@ Route::group(['middleware' => 'check.login'], function () {
 // 路由中间件
 Route::group(['prefix' => 'service'], function () {
     Route::get('validate_code/create', 'Service\ValidateController@create');
-    Route::post('validate_phone/send', 'Service\ValidateController@sendSMS');
+    Route::get('validate_phone/send', 'Service\ValidateController@sendSMS');
     Route::post('register', 'Service\MemberController@register');
     Route::post('login', 'Service\MemberController@login');
     Route::get('category/parent_id/{parent_id}', 'Service\BookController@getCategoryByParentId');

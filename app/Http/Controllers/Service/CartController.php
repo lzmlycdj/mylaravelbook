@@ -43,7 +43,7 @@ class CartController extends Controller
 
     $bk_cart = $request->cookie('bk_cart');
     $bk_cart_arr = ($bk_cart!=null ? explode(',', $bk_cart) : array());
-
+    //  这里是购物车逻辑，添加后会返回一个cookie给客户端(两个cookie里面由值，则继续添加)
     $count = 1;
     foreach ($bk_cart_arr as &$value) {   // 一定要传引用
       $index = strpos($value, ':');
@@ -57,7 +57,7 @@ class CartController extends Controller
     if($count == 1) {
       array_push($bk_cart_arr, $product_id . ':' . $count);
     }
-
+    // 这里就是写入cookie给客户端了，cookie键名就是bk_cart
     return response($m3_result->toJson())->withCookie('bk_cart', implode(',', $bk_cart_arr));
   }
 

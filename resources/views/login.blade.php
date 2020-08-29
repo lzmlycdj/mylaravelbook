@@ -124,7 +124,7 @@ $('.bk_validate_code').click(function () {
         $('.bk_toptips span').html('登录成功');
         setTimeout(function() {$('.bk_toptips').hide();}, 2000);
         // 控制器里面不要轻易跳转，因为如果你的控制器对外接口，这就不方便了，应该返回一个数据，前台再跳转
- 
+        location.href = "{!!$return_url!!}";
       },
       error: function(xhr, status, error) {
         console.log(xhr);
